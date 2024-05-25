@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot</title>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io@2.3.0/dist/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2.3.0/dist/socket.io.min.js"></script>
+  </head>
+  <body>
+    <h1>Chatbot</h1>
+    <input id="message" type="text" />
+    <button id="send">Send</button>
+    <ul id="messages">
+    </ul>
+
+    <script>
+      var socket = io();
+      document.getElementById('send').addEventListener('click', function() {
+        var message = document.getElementById('message').value;
+        socket.emit('message', message);
+        document.getElementById('message').value = '';
+      });
+
+      socket.on('response', function(response) {
+        var messageList = document.getElementById('messages');
+        var messageElement = document.createElement('li');
+        messageElement.textContent = response;
+        messageList.appendChild(messageElement);
+      });
+    </script>
+  </body>
+</html>
